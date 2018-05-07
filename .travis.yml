@@ -1,0 +1,10 @@
+dist: trusty
+sudo: false
+
+language: go
+go:
+  - "1.10"
+
+script:
+  - make test
+
