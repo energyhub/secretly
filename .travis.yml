@@ -1,13 +1,21 @@
 dist: trusty
 sudo: false
-
 language: go
 go:
-  - "1.10"
+- '1.10'
 
 install:
-  - make install
+- make install
 
 script:
-  - make test
+- make test
 
+deploy:
+  provider: releases
+  api_key:
+    secure: i0BILCFie69NAGonBrCAMHVyww538K8cXiz7R3SXvq1ya8DSXwKAFMvnkhTdG9B6Khip4m/ddL7gu3CDDl8vdMXR74SYdL5nsCam7bi0wSJDVwABj1qEI9BtvsPvobw8XTstG/oVcAJitXVkIvaX3nx8BPAxYZBFsLkYehJZhXI/FMMHgJn5NWE7HkBpZHXcUNHzeLckv8D00j80eXbd/WxiSA9+cH/qf91ajYNlJjqDGy5bf1Lhq3qYWk2FVKTzoBi187TtCs26aEvrcUYDnYNlKZHNvTqyyMtxyKwOCugDjvI4Vqua8fiB1JKcg7fvnJeoekQSFVb7J3LsNnJqYOd8iB9kJWKSqRCpaRFQp4R/ubn91ewvahdiTd78yChxO8f1N2ED6KoeMIf/v7PjjWGQydQKtTl5/rgNMPCVyKkvZiV2avAuQB96QqfJ4wt4rU3frroKG6LGWbQ3zyKvHmHXLGiJHAr2+z8mCG8v4XYhc5/fpe3UG/xlFCh1UJj/5mbI9x1HM/sWFZ/U2KXa4euCqE9vH6QT0VDvmG5aXwXonXWtV4Xlw2FQmeRa6CnRSk382HifLFa6hcOkib6vGnRTMZvMuepQx0bD4iYqdsl2Yja67DjFv7MphMFaypf/N+ZxzqYRgD8Hjvp8AONnLhOagJ+kdcvV1MMfdLLKOMY=
+  file: dist/*
+  file_glob: true
+  skip_cleanup: true
+  on:
+    tags: true
