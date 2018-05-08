@@ -5,9 +5,9 @@ import (
 	"sort"
 	"testing"
 
+	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/ssm"
-	"github.com/pkg/errors"
 )
 
 func Test_addSecrets(t *testing.T) {
@@ -92,7 +92,7 @@ func Test_findSecrets(t *testing.T) {
 			name: "propagates error",
 			args: args{
 				getter: func(input *ssm.GetParametersByPathInput) (*ssm.GetParametersByPathOutput, error) {
-					return nil, errors.New("got an error")
+					return nil, fmt.Errorf("got an error")
 				},
 				ns: "prefix",
 			},

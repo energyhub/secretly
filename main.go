@@ -72,7 +72,7 @@ func findSecrets(getter secretsGetter, ns string) (map[string]string, error) {
 
 		output, err := getter(input)
 		if err != nil {
-			return nil, fmt.Errorf("error getting secrets from \"%s\": %s", prefix, err)
+			return nil, fmt.Errorf("error getting secrets from \"%v\": %v", prefix, err)
 		}
 
 		for _, p := range output.Parameters {
@@ -93,7 +93,7 @@ func findSecrets(getter secretsGetter, ns string) (map[string]string, error) {
 func run(command, env []string) error {
 	path, err := exec.LookPath(command[0])
 	if err != nil {
-		return fmt.Errorf("error finding executable \"%s\": %s", command[0], err)
+		return fmt.Errorf("error finding executable \"%v\": %v", command[0], err)
 	}
 
 	return syscall.Exec(path, command, env)
