@@ -3,11 +3,13 @@
 
 # secretly
 
-Add secrets from AWS Parameter Store to your environment. That's it. Inspired by [chamber](https://github.com/segmentio/chamber) but losing the bells and whistles, and not
+Add secrets from [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-paramstore.html) to your environment. That's it.
+
+Inspired by [chamber](https://github.com/segmentio/chamber) but losing the bells and whistles -- `secretly` _only_ performs reads from the parameter store -- and a little less opinionated about namespacing and parameter store usage.
 
 ## usage
 
-`secretly` runs a command the command passed to it with the variables defined in the `SECRETLY_NAMESPACE` of AWS' Parameter Store.
+`secretly` runs the command passed to it with the variables defined in the `SECRETLY_NAMESPACE` of AWS' Parameter Store.
 
 If `SECRETLY_NAMESPACE` is undefined it behaves normally.
 

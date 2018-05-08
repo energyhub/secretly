@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ssm"
@@ -29,10 +30,17 @@ func main() {
 		session := session.Must(session.NewSession())
 		svc := ssm.New(session)
 
-		secrets := findSecrets(svc.GetParametersByPath, ns)
+		secrets, err := findSecrets(svc.GetParametersByPath, ns)
+		if err != nil {
+			log.Fatal(err)
+		}
+
 		environ = addSecrets(environ, secrets)
 	}
-	run(os.Args[1:], environ)
+
+	if err := run(os.Args[1:], environ); err != nil {
+		log.Fatal(err)
+	}
 }
 
 func addSecrets(environ []string, secrets map[string]string) []string {
@@ -48,7 +56,7 @@ func addSecrets(environ []string, secrets map[string]string) []string {
 	return fromMap(envMap)
 }
 
-func findSecrets(getter secretsGetter, ns string) map[string]string {
+func findSecrets(getter secretsGetter, ns string) (map[string]string, error) {
 	prefix := "/" + strings.Trim(ns, "/") + "/"
 
 	secrets := make(map[string]string)
@@ -64,7 +72,7 @@ func findSecrets(getter secretsGetter, ns string) map[string]string {
 
 		output, err := getter(input)
 		if err != nil {
-			log.Fatalf("error getting secrets from \"%s\": %s", prefix, err)
+			return nil, fmt.Errorf("error getting secrets from \"%s\": %s", prefix, err)
 		}
 
 		for _, p := range output.Parameters {
@@ -79,18 +87,16 @@ func findSecrets(getter secretsGetter, ns string) map[string]string {
 		nextToken = output.NextToken
 	}
 
-	return secrets
+	return secrets, nil
 }
 
-func run(command, env []string) {
+func run(command, env []string) error {
 	path, err := exec.LookPath(command[0])
 	if err != nil {
-		log.Fatalf("error finding executable \"%s\": %s", command[0], err)
+		return fmt.Errorf("error finding executable \"%s\": %s", command[0], err)
 	}
 
-	if err := syscall.Exec(path, command, env); err != nil {
-		log.Fatal(err)
-	}
+	return syscall.Exec(path, command, env)
 }
 
 func toMap(environ []string) map[string]string {
