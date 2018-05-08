@@ -1,5 +1,4 @@
 .PHONY: clean install test dist
-VERSION:=$(shell git describe --tags --always)
 
 clean:
 	rm -rf dist
@@ -13,6 +12,5 @@ test:
 
 dist:
 	mkdir dist
-	GOOS=darwin GOARCH=amd64 CGO_ENABLED=0 go build -o dist/secretly-$(VERSION)-darwin-amd64
-	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o dist/secretly-$(VERSION)-linux-amd64
-
+	GOOS=darwin GOARCH=amd64 go build -o dist/secretly-darwin-amd64
+	GOOS=linux GOARCH=amd64 go build -o dist/secretly-linux-amd64

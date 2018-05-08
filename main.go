@@ -12,6 +12,7 @@ import (
 )
 
 const (
+	// AWS only allows a max results <= 10
 	ssmMaxResults   = 10
 	namespaceEnvVar = "SECRETLY_NAMESPACE"
 )
@@ -31,7 +32,6 @@ func main() {
 		secrets := findSecrets(svc.GetParametersByPath, ns)
 		environ = addSecrets(environ, secrets)
 	}
-
 	run(os.Args[1:], environ)
 }
 
