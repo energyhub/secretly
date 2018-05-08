@@ -4,19 +4,19 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/aws/aws-sdk-go/service/ssm"
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/service/ssm"
 )
 
-func Test_doListNamespace(t *testing.T) {
+func Test_findSecrets(t *testing.T) {
 	type args struct {
-		getter func(input *ssm.GetParametersByPathInput) (*ssm.GetParametersByPathOutput, error)
+		getter secretsGetter
 		ns     string
 	}
 	tests := []struct {
 		name string
 		args args
-		want []secret
+		want map[string]string
 	}{
 		{
 			name: "concats",
@@ -45,16 +45,16 @@ func Test_doListNamespace(t *testing.T) {
 				},
 				ns: "prefix",
 			},
-			want: []secret{
-				{"ONE_VALUE", "I AM THE FIRST VALUE",},
-				{"THIS_IS_A_TEST", "I AM A VALUE",},
+			want: map[string]string{
+				"ONE_VALUE":      "I AM THE FIRST VALUE",
+				"THIS_IS_A_TEST": "I AM A VALUE",
 			},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := doListNamespace(tt.args.getter, tt.args.ns); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("doListNamespace() = %v, want %v", got, tt.want)
+			if got := findSecrets(tt.args.getter, tt.args.ns); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("findSecrets() = %v, want %v", got, tt.want)
 			}
 		})
 	}
