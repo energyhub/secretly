@@ -32,7 +32,7 @@ This is meant to have a very specific and lightweight purpose -- to be called fr
 
 Now:
 ```bash
-$ docker build -f test.Dockerfile -t secretly-test .
+$ docker build -f example.Dockerfile -t secretly-test .
 $ docker run secretly-test | grep BAZ
 # nada
 $ docker run -e SECRETLY_NAMESPACE=foo/bar secretly-test | grep BAZ
