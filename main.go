@@ -41,7 +41,7 @@ func addSecrets(environ []string, secrets map[string]string) []string {
 	}
 
 	envMap := toMap(environ)
-	for k, v := range envMap {
+	for k, v := range secrets {
 		envMap[k] = v
 	}
 
@@ -97,7 +97,7 @@ func toMap(environ []string) map[string]string {
 	env := make(map[string]string)
 	for _, envVar := range environ {
 		parts := strings.SplitN(envVar, "=", 2)
-		env[parts[0]] = env[parts[1]]
+		env[parts[0]] = parts[1]
 	}
 	return env
 }
