@@ -7,7 +7,6 @@ import (
 	"log"
 	"os"
 	"os/exec"
-	"sort"
 	"strings"
 	"syscall"
 )
@@ -108,9 +107,6 @@ func fromMap(m map[string]string) []string {
 	for k, v := range m {
 		s = append(s, k+"="+v)
 	}
-
-	// let's be deterministic
-	sort.Strings(s)
-
+	// no guaranteed order
 	return s
 }
