@@ -28,7 +28,7 @@ $ secretly env | grep BAZ
 BAZ=mysecretpassword
 ```
 
-This is meant to have a very specific and lightweight purpose -- to be called from a Dockerfile. Check out the trivial example in [example.Dockerfile](example.Dockerfile).
+This is meant to have a very specific and lightweight purpose -- to be called from a Dockerfile. Add it to your Dockerfile, `chmod +x` it, and prefix your `CMD` or `ENTRYPOINT` with it -- `CMD ["secretly", "run_myawesomeapp.sh"]`.  Check out the trivial example in [example.Dockerfile](example.Dockerfile).
 
 Now:
 ```bash
