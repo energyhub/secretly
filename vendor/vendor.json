@@ -165,6 +165,12 @@
 			"revisionTime": "2018-05-04T20:21:29Z"
 		},
 		{
+			"checksumSHA1": "3rbChVxRsRDxn7UxVQTo18FZFEw=",
+			"path": "github.com/aws/aws-sdk-go/service/ssm/ssmiface",
+			"revision": "59a21fcfacca3b32766b385235797649ec791e48",
+			"revisionTime": "2018-05-10T23:30:02Z"
+		},
+		{
 			"checksumSHA1": "llx3DydC0nTbF0cZoYUjO9P1eZw=",
 			"path": "github.com/aws/aws-sdk-go/service/sts",
 			"revision": "4aa9bfcedd69afca7252c09d53512b635ab08937",
