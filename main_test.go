@@ -136,7 +136,7 @@ func Test_findSecrets(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			client := &mockClient{getter:tt.args.getter}
+			client := &mockClient{getter: tt.args.getter}
 			got, err := findSecrets(client, tt.args.ns)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("findSecrets() error = %v, wantErr %v", err, tt.wantErr)

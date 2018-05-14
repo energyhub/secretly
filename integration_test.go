@@ -5,10 +5,10 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"reflect"
 	"sort"
 	"strings"
 	"testing"
-	"reflect"
 )
 
 var binPath string
