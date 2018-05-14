@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/ssm"
+	"github.com/aws/aws-sdk-go/service/ssm/ssmiface"
 )
 
 func Test_addSecrets(t *testing.T) {
@@ -79,7 +80,7 @@ func Test_addSecrets(t *testing.T) {
 
 func Test_findSecrets(t *testing.T) {
 	type args struct {
-		getter secretsGetter
+		getter func(input *ssm.GetParametersByPathInput) (*ssm.GetParametersByPathOutput, error)
 		ns     string
 	}
 	tests := []struct {
@@ -135,7 +136,8 @@ func Test_findSecrets(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := findSecrets(tt.args.getter, tt.args.ns)
+			client := &mockClient{getter:tt.args.getter}
+			got, err := findSecrets(client, tt.args.ns)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("findSecrets() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -145,6 +147,15 @@ func Test_findSecrets(t *testing.T) {
 			}
 		})
 	}
+}
+
+type mockClient struct {
+	ssmiface.SSMAPI
+	getter func(input *ssm.GetParametersByPathInput) (*ssm.GetParametersByPathOutput, error)
+}
+
+func (c *mockClient) GetParametersByPath(input *ssm.GetParametersByPathInput) (*ssm.GetParametersByPathOutput, error) {
+	return c.getter(input)
 }
 
 func Test_toMap(t *testing.T) {

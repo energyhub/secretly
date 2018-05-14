@@ -8,6 +8,7 @@ import (
 	"sort"
 	"strings"
 	"testing"
+	"reflect"
 )
 
 var binPath string
@@ -61,8 +62,8 @@ func Test_cliEnv(t *testing.T) {
 				return
 			}
 
-			var outputEnv []string
-
+			// always allocate array b/c reflect.DeepEqual treats empty and nil slices differently
+			outputEnv := make([]string, 0)
 			for _, line := range strings.Split(string(out), "\n") {
 				if strings.Trim(line, " ") != "" {
 					outputEnv = append(outputEnv, strings.Trim(line, " "))
@@ -70,23 +71,9 @@ func Test_cliEnv(t *testing.T) {
 			}
 			sort.Strings(outputEnv)
 
-			if !sliceEq(outputEnv, tt.wantEnv) {
+			if !reflect.DeepEqual(outputEnv, tt.wantEnv) {
 				t.Errorf("cli = got %v, want %v", outputEnv, tt.wantEnv)
 			}
 		})
 	}
-}
-
-func sliceEq(a, b []string) bool {
-	if len(a) != len(b) {
-		return false
-	}
-
-	for i := range a {
-		if a[i] != b[i] {
-			return false
-		}
-	}
-
-	return true
 }

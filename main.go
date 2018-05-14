@@ -5,6 +5,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ssm"
+	"github.com/aws/aws-sdk-go/service/ssm/ssmiface"
 	"log"
 	"os"
 	"os/exec"
@@ -18,8 +19,6 @@ const (
 	namespaceEnvVar = "SECRETLY_NAMESPACE"
 )
 
-type secretsGetter func(input *ssm.GetParametersByPathInput) (*ssm.GetParametersByPathOutput, error)
-
 func main() {
 	if len(os.Args) <= 1 {
 		log.Fatalf("No command passed")
@@ -30,7 +29,7 @@ func main() {
 		session := session.Must(session.NewSession())
 		svc := ssm.New(session)
 
-		secrets, err := findSecrets(svc.GetParametersByPath, ns)
+		secrets, err := findSecrets(svc, ns)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -56,7 +55,7 @@ func addSecrets(environ []string, secrets map[string]string) []string {
 	return fromMap(envMap)
 }
 
-func findSecrets(getter secretsGetter, ns string) (map[string]string, error) {
+func findSecrets(svc ssmiface.SSMAPI, ns string) (map[string]string, error) {
 	prefix := "/" + strings.Trim(ns, "/") + "/"
 
 	secrets := make(map[string]string)
@@ -70,7 +69,7 @@ func findSecrets(getter secretsGetter, ns string) (map[string]string, error) {
 			WithDecryption: aws.Bool(true),
 		}
 
-		output, err := getter(input)
+		output, err := svc.GetParametersByPath(input)
 		if err != nil {
 			return nil, fmt.Errorf("error getting secrets from \"%v\": %v", prefix, err)
 		}
