@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.com/energyhub/secretly.svg?branch=master)](https://travis-ci.com/energyhub/secretly)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a60928ed98774f86881108286d1c9e20)](https://www.codacy.com/app/energyhub/secretly?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=energyhub/secretly&amp;utm_campaign=Badge_Grade)
+[![Go Report Card](https://goreportcard.com/badge/github.com/energyhub/secretly)](https://goreportcard.com/report/github.com/energyhub/secretly)
 
 # secretly
 
