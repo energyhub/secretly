@@ -1,4 +1,5 @@
-FROM alpine
+FROM alpine:3.7
+LABEL maintainer="dev@energyhub.net"
 
 # necessary for SSL w/ AWS
 RUN apk add --no-cache ca-certificates
