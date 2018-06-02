@@ -8,7 +8,7 @@ install:
 	govendor sync
 
 test:
-	go test -v ./...
+	go test -coverprofile=coverage.out -v ./...
 
 dist:
 	mkdir dist
