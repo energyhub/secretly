@@ -5,9 +5,9 @@
 
 # secretly
 
-[![asciicast](https://asciinema.org/a/py7GsIvuqZ77vyuYfm5OyNpoA.png)](https://asciinema.org/a/py7GsIvuqZ77vyuYfm5OyNpoA)
-
 Add secrets from [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-paramstore.html) to your environment. That's it.
+
+[![asciicast](https://asciinema.org/a/py7GsIvuqZ77vyuYfm5OyNpoA.png)](https://asciinema.org/a/py7GsIvuqZ77vyuYfm5OyNpoA)
 
 Inspired by [chamber](https://github.com/segmentio/chamber) but losing the bells and whistles -- `secretly` _only_ performs reads from the parameter store -- and a little less opinionated about namespacing and parameter store usage.
 
