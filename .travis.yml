@@ -17,7 +17,7 @@ install:
 
 script:
 - make test
-- godacov -t "${CODACY_TOKEN}" -r ./coverage.out -c "${TRAVIS_COMMIT}"
+- if [ -n "${CODACY_TOKEN}" ]; then godacov -t "${CODACY_TOKEN}" -r ./coverage.out -c "${TRAVIS_COMMIT}"; fi
 
 deploy:
   provider: releases
