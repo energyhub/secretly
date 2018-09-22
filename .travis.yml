@@ -8,6 +8,7 @@ env:
   global:
     # CODACY_TOKEN
     - secure: "o+zKtnbIXRq8Hpap/ahQ4HvAcrO1xK4QziTfWxppw/IUAcUjlD0t+9lLuOHE2y8FQujhAZqpbduSqhPR8Szruf5QFLr5ckE/lOiOTo+xwSaYGCEii0csvzmFmD2yg4FfWCu6G32cugoXUAAoTY1x2rtcU3fHerhhE9u4+6E79ch/XNasolp0eR9Sje+oRYaCp3O4OfPAAJ5KdREp6zZcmonbNTQVtf2tKCa3mpkPAxmHmLm0fx3oxgc/+AvjQ+gCvxdtJxgqVj97SJ+lPCzJ4IJd+gm61SO4bMFBVaZMfalQdtmms6ZI6XJMz+b4havTORNfNTLl12WOke2NmJ0Y+IJth8/uFQ2DmmxwRMgyF80bKHeYzrdT0i7UO8pvTPm0we+M53YDNAwc/QUEKhFgw/MDKzLZK4hVETTQ60TsdFd0e7ZNl2yGwowLABt2O7O0pe+ACYa3pPFN+ZAblxw5oyuVvHwjz1wVH/K4LbHkKZ22LvS4pTbi6BbO45pAfITpau1aRtL8lUvcluf8ozNcIQxCgoQd9ca+HQQ5JJKU42X+8x4MTZ5jG1o95uJ3EdVgC7n1NMxp/v4jLi8qwg4AXz5OR9OnJI5s2yprE9xL1W5QiBw3zc/yh15rlOOkUJ/bCy+1en6UREP90bWT6X2l6Ei7a6MO0SedNx6MpILmko0="
+    - GO111MODULE=on
 
 install:
 - make dist
