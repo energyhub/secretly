@@ -50,7 +50,6 @@ In ECS, provided you're using AWS IAM roles, the auth params won't be necessary.
 ## building it
 
 ```bash
-$ make install  # get them deps
 $ make test
 $ make dist  # plops stuff in dist/
 $ make clean  # cleans out dist
