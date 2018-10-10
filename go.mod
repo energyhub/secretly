@@ -1,7 +1,7 @@
 module github.com/energyhub/secretly
 
 require (
-	github.com/aws/aws-sdk-go v1.15.43
+	github.com/aws/aws-sdk-go v1.15.51
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/go-ini/ini v1.38.2 // indirect
 	github.com/gopherjs/gopherjs v0.0.0-20180825215210-0210a2f0f73c // indirect
