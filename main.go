@@ -29,12 +29,15 @@ func main() {
 		session := session.Must(session.NewSession())
 		svc := ssm.New(session)
 
-		secrets, err := findSecrets(svc, ns)
-		if err != nil {
-			log.Fatal(err)
+		nsList := strings.Split(ns, ",")
+		for i := range nsList {
+			log.Print(i)
+			secrets, err := findSecrets(svc, nsList[i])
+			if err != nil {
+				log.Fatal(err)
+			}
+			environ = addSecrets(environ, secrets)
 		}
-
-		environ = addSecrets(environ, secrets)
 	}
 
 	if err := run(os.Args[1:], environ); err != nil {
