@@ -31,7 +31,6 @@ func main() {
 
 		nsList := strings.Split(ns, ",")
 		for i := range nsList {
-			log.Print(i)
 			secrets, err := findSecrets(svc, nsList[i])
 			if err != nil {
 				log.Fatal(err)
