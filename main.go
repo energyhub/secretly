@@ -23,26 +23,30 @@ func main() {
 	if len(os.Args) <= 1 {
 		log.Fatalf("No command passed")
 	}
-
 	environ := os.Environ()
 	if ns, ok := os.LookupEnv(namespaceEnvVar); ok {
 		session := session.Must(session.NewSession())
 		svc := ssm.New(session)
 
-		nsList := strings.Split(ns, ",")
-		for i := range nsList {
-			secrets, err := findSecrets(svc, nsList[i])
-			if err != nil {
-				log.Fatal(err)
-			}
-			environ = addSecrets(environ, secrets)
-		}
+		environ = findAllSecrets(svc, ns, environ)
 	}
 
 	if err := run(os.Args[1:], environ); err != nil {
 		log.Fatal(err)
 	}
 }
+
+func findAllSecrets(svc ssmiface.SSMAPI, nsAll string, environ []string) ([]string) {
+	for _, nsItem := range strings.Split(nsAll, ",") {
+		secrets, err := findSecrets(svc, nsItem)
+		if err != nil {
+			log.Fatal(err)
+		}
+		environ = addSecrets(environ, secrets)
+	}
+	return environ
+}
+
 
 func addSecrets(environ []string, secrets map[string]string) []string {
 	if len(secrets) == 0 {
