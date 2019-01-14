@@ -2,15 +2,16 @@ package main
 
 import (
 	"fmt"
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/ssm"
-	"github.com/aws/aws-sdk-go/service/ssm/ssmiface"
 	"log"
 	"os"
 	"os/exec"
 	"strings"
 	"syscall"
+
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/ssm"
+	"github.com/aws/aws-sdk-go/service/ssm/ssmiface"
 )
 
 const (
@@ -36,17 +37,22 @@ func main() {
 	}
 }
 
-func findAllSecrets(svc ssmiface.SSMAPI, nsAll string, environ []string) ([]string) {
+func findAllSecrets(svc ssmiface.SSMAPI, nsAll string, environ []string) []string {
+	allSecrets := make(map[string]string)
 	for _, nsItem := range strings.Split(nsAll, ",") {
-		secrets, err := findSecrets(svc, nsItem)
-		if err != nil {
-			log.Fatal(err)
+		if len(nsItem) > 0 {
+			secrets, err := findSecrets(svc, nsItem)
+			if err != nil {
+				log.Fatal(err)
+			}
+			for key, value := range secrets {
+				allSecrets[key] = value
+			}
 		}
-		environ = addSecrets(environ, secrets)
 	}
+	environ = addSecrets(environ, allSecrets)
 	return environ
 }
-
 
 func addSecrets(environ []string, secrets map[string]string) []string {
 	if len(secrets) == 0 {

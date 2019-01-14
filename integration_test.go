@@ -40,6 +40,7 @@ func Test_cliEnv(t *testing.T) {
 		{"totally empty", []string{}, []string{}, false},
 		{"passes through", []string{"FOO_BAR=BAZ"}, []string{"FOO_BAR=BAZ"}, false},
 		{"AWS error", []string{"SECRETLY_NAMESPACE=BAZ"}, nil, true},
+		{"AWS error multiple namespaces", []string{"SECRETLY_NAMESPACE=BAZ,BAR"}, nil, true},
 	}
 
 	for _, tt := range tests {
@@ -50,7 +51,6 @@ func Test_cliEnv(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-
 			cmd := exec.Command(binPath, envPath)
 			cmd.Env = tt.environ
 			out, err := cmd.Output()

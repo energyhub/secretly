@@ -31,7 +31,7 @@ $ export SECRETLY_NAMESPACE=foo/bar
 $ secretly env | grep BAZ
 BAZ=mysecretpassword
 ```
-In addition, it's possible to specify multiple namespaces by separating them with commas in the `SECRETLY_NAMESPACE` variable.
+In addition, it's possible to specify multiple namespaces by separating them with commas in the `SECRETLY_NAMESPACE` variable.  If a parameter is defined in multiple namespaces, the parameter from the right-most entry in the comma separated list of namespaces will be returned.
 
 ```bash
 $ secretly env | grep APP

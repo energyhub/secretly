@@ -213,7 +213,6 @@ func Test_findAllSecrets(t *testing.T) {
 		name    string
 		args    args
 		want    []string
-		wantErr bool
 	}{
 		{
 			name: "basicFindAllTest",
@@ -226,7 +225,6 @@ func Test_findAllSecrets(t *testing.T) {
 				"VALUE_IN_BOTH=I CAME FROM PREFIX 2",
 				"VALUE_SECOND_ONLY=I CAME FROM PREFIX 2",
 			},
-			wantErr: false,
 		},
 		{
 			name: "ReversedPrefixOrderFindAllTest",
@@ -239,7 +237,6 @@ func Test_findAllSecrets(t *testing.T) {
 				"VALUE_IN_BOTH=I CAME FROM PREFIX 1",
 				"VALUE_SECOND_ONLY=I CAME FROM PREFIX 2",
 			},
-			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
