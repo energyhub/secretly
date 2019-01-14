@@ -2,15 +2,16 @@ package main
 
 import (
 	"fmt"
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/ssm"
-	"github.com/aws/aws-sdk-go/service/ssm/ssmiface"
 	"log"
 	"os"
 	"os/exec"
 	"strings"
 	"syscall"
+
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/ssm"
+	"github.com/aws/aws-sdk-go/service/ssm/ssmiface"
 )
 
 const (
@@ -23,23 +24,34 @@ func main() {
 	if len(os.Args) <= 1 {
 		log.Fatalf("No command passed")
 	}
-
 	environ := os.Environ()
 	if ns, ok := os.LookupEnv(namespaceEnvVar); ok {
 		session := session.Must(session.NewSession())
 		svc := ssm.New(session)
 
-		secrets, err := findSecrets(svc, ns)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		environ = addSecrets(environ, secrets)
+		environ = findAllSecrets(svc, ns, environ)
 	}
 
 	if err := run(os.Args[1:], environ); err != nil {
 		log.Fatal(err)
 	}
+}
+
+func findAllSecrets(svc ssmiface.SSMAPI, nsAll string, environ []string) []string {
+	allSecrets := make(map[string]string)
+	for _, nsItem := range strings.Split(nsAll, ",") {
+		if len(nsItem) > 0 {
+			secrets, err := findSecrets(svc, nsItem)
+			if err != nil {
+				log.Fatal(err)
+			}
+			for key, value := range secrets {
+				allSecrets[key] = value
+			}
+		}
+	}
+	environ = addSecrets(environ, allSecrets)
+	return environ
 }
 
 func addSecrets(environ []string, secrets map[string]string) []string {

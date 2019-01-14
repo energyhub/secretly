@@ -31,8 +31,19 @@ $ export SECRETLY_NAMESPACE=foo/bar
 $ secretly env | grep BAZ
 BAZ=mysecretpassword
 ```
+In addition, it's possible to specify multiple namespaces by separating them with commas in the `SECRETLY_NAMESPACE` variable.  If a parameter is defined in multiple namespaces, the parameter from the right-most entry in the comma separated list of namespaces will be returned.
 
-This is meant to have a very specific and lightweight purpose -- to be called from a Dockerfile. Add it to your Dockerfile, `chmod +x` it, and prefix your `CMD` or `ENTRYPOINT` with it -- `CMD ["secretly", "run_myawesomeapp.sh"]`.  Check out the trivial example in [example.Dockerfile](example.Dockerfile).
+```bash
+$ secretly env | grep APP
+# nothing
+$ export SECRETLY_NAMESPACE=common/dev,myapp/dev
+$ secretly env | grep APP
+APP_SHARED_API_KEY=mysecretpassword
+APP_MYAPP_SECRET=mysecretpassword
+```
+
+
+Secretly is meant to have a very specific and lightweight purpose -- to be called from a Dockerfile. Add it to your Dockerfile, `chmod +x` it, and prefix your `CMD` or `ENTRYPOINT` with it -- `CMD ["secretly", "run_myawesomeapp.sh"]`.  Check out the trivial example in [example.Dockerfile](example.Dockerfile).
 
 Now:
 ```bash
