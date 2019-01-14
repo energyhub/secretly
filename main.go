@@ -20,9 +20,14 @@ const (
 	namespaceEnvVar = "SECRETLY_NAMESPACE"
 )
 
+func usage() {
+	fmt.Println("Usage: secretly <command> [arg...]")
+	os.Exit(1)
+}
+
 func main() {
 	if len(os.Args) <= 1 {
-		log.Fatalf("No command passed")
+		usage()
 	}
 	environ := os.Environ()
 	if ns, ok := os.LookupEnv(namespaceEnvVar); ok {
