@@ -2,7 +2,7 @@ dist: xenial
 sudo: false
 language: go
 go:
-- '1.11'
+- '1.12'
 
 env:
   global:
